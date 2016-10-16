@@ -13,7 +13,7 @@ function RoutesConfig($stateProvider, $urlRouterProvider) {
   // Home page
   .state('home', {
     url: '/',
-    templateUrl: 'src/templates/home.template.html'
+    templateUrl: 'src/home.template.html'
   })
   // Categories list page
   // 1. state.resolve gets called first, make sure items.promised
@@ -22,11 +22,11 @@ function RoutesConfig($stateProvider, $urlRouterProvider) {
   // 3. categories..html gets called
   .state('categories', {
     url: '/categories',
-    templateUrl: 'src/templates/categories.template.html',
+    templateUrl: 'src/categories.template.html',
     controller: 'CategoriesController as catCtrl',
     resolve: {
       items: ['MenuDataService', function (MenuDataService) {
-console.log("(categories.state) <-from home..html ->do 3 things:");  
+  console.log("(categories.state) <-from home..html ->do 3 things:");  
         return MenuDataService.getAllCategories();
       }]
     }
@@ -38,7 +38,7 @@ console.log("(categories.state) <-from home..html ->do 3 things:");
   // 3. items..html gets called
   .state('items', {
     url: '/items/{shortId}',
-    templateUrl: 'src/templates/items.template.html',
+    templateUrl: 'src/items.template.html',
     controller: 'ItemsController as itemsCtrl',
 	resolve: {
 		items: ['$stateParams', 'MenuDataService',
