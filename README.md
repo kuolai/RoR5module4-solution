@@ -27,6 +27,8 @@ solution: move menuapp.module.js up
 what might cause the error: menuapp depends on ui.router and thought routes.js = ui.router
 
 [Confusion 02]:
+confusion: both routes.js and ctegories.component.js can invoke categories.template.html,
+  which way is the right way? Do I need to write both ways?
   // In routes.js: Categories list page
   .state('categories', {
     url: '/categories',
@@ -41,7 +43,7 @@ what might cause the error: menuapp depends on ui.router and thought routes.js =
   // In categories.component.js
   angular.module('MenuApp')
   .component('categories', {
-    templateUrl: 'src/categories.template.html',
+    templateUrl: 'src/templates/categories.template.html',
     controller: CategoriesComponentController,
     bindings: { items: '<' }
   }

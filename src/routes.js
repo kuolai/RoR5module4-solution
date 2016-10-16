@@ -16,24 +16,38 @@ function RoutesConfig($stateProvider, $urlRouterProvider) {
     templateUrl: 'src/templates/home.template.html'
   })
   // Categories list page
+  // 1. state.resolve gets called first, make sure items.promised
+  //    items are a list of categories
+  // 2. categoriesController gets called
+  // 3. categories..html gets called
   .state('categories', {
     url: '/categories',
     templateUrl: 'src/templates/categories.template.html',
     controller: 'CategoriesController as catCtrl',
     resolve: {
       items: ['MenuDataService', function (MenuDataService) {
+console.log("(categories.state) <-from home..html ->do 3 things:");  
         return MenuDataService.getAllCategories();
       }]
     }
   })
   // Items page as categories.child view
-  .state('categories.items', {
-    url: '/items/{itemId}',
+  // 1. state.resolve gets called first, make sure items.promised
+  //    items are a list of menu items
+  // 2. itemsController gets called
+  // 3. items..html gets called
+  .state('items', {
+    url: '/items/{shortId}',
     templateUrl: 'src/templates/items.template.html',
     controller: 'ItemsController as itemsCtrl',
-    params: {
-      itemId: null
-    }
-  });
+	resolve: {
+		items: ['$stateParams', 'MenuDataService',
+		function ($stateParams, MenuDataService) {
+console.log("(items.state) <-from <categoriesList> ->do 3 things with shortId= ", $stateParams.shortId);
+console.log("##1 resolve(items.state) getItemsForCategories <-by routes.js.resolve shortId= ", $stateParams.shortId);
+			return MenuDataService.getItemsForCategory($stateParams.shortId);
+		}]
+	}
+   });
 }
 })();

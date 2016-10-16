@@ -2,12 +2,10 @@
 'use strict';
 
 angular.module('MenuApp')
-.component('categories', {
-  templateUrl: 'src/templates/categories.template.html',
+.component('categoriesList', {
+  templateUrl: 'src/templates/categoriesList.template.html',
   controller: CategoriesComponentController,
-  bindings: {
-    items: '<'
-  }
+  bindings: {    items: '<'  }
 });
 
 CategoriesComponentController.$inject = ['$rootScope']
@@ -15,23 +13,23 @@ function CategoriesComponentController($rootScope) {
   var $ctrl = this;
   var cancellers = [];
 
-  console.log("entering CategoriesComponentController");
+  console.log("##3 CategoriesComponentController, from categories..html");
+  console.log("*** calls categorieslist..html and gets {shortId: item.short_name} after a selection click");
   $ctrl.$onInit = function () {
     var cancel = $rootScope.$on('$stateChangeStart',
     function(event, toState, toParams, fromState, fromParams, options){
-      console.log('categories state change started');
+      console.log('**categories state change started');
     });
     cancellers.push(cancel);
 
     cancel = $rootScope.$on('$stateChangeSuccess',
     function(event, toState, toParams, fromState, fromParams){
-      console.log("categories state changed successful");
+      console.log("**categories state changed successful");
     });
-    cancellers.push(cancel);
 
     cancel = $rootScope.$on('$stateChangeError',
     function(event, toState, toParams, fromState, fromParams, error){
-      console.log("categories state transition error: ", error);
+      console.log("**categories state transition error: ", error);
     });
     cancellers.push(cancel);
   };
@@ -41,8 +39,5 @@ function CategoriesComponentController($rootScope) {
       item();
     });
   };
-
-
 }
-
 })();
